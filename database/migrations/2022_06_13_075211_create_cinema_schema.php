@@ -36,7 +36,54 @@ class CreateCinemaSchema extends Migration
      */
     public function up()
     {
-        throw new \Exception('implement in coding task 4, you can ignore this exception if you are just running the initial migrations.');
+        Schema::create('movies', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->string('description');
+            $table->timestamp('image');
+            $table->string('duration');           
+            $table->timestamps();
+        });
+
+        Schema::create('shows', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('movie_id');
+            $table->string('start_time');
+            $table->string('end_time');
+            $table->string('price');      
+            $table->foreignId('showroom_id');     
+            $table->timestamps();
+        });
+
+        Schema::create('showrooms', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->string('capacity');
+            $table->string('end_time');
+            $table->string('vip_percentage');    
+            $table->string('couple_percentage'); 
+            $table->string('super_vip_percentage');      
+            $table->timestamps();
+        });
+
+        Schema::create('seats', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('showroom_id');
+            $table->string('type');//standard, VIP, couple, super VIP
+            $table->string('row');
+            $table->string('number');        
+            $table->timestamps();
+        });
+
+        Schema::create('bookings', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('show_id');
+            $table->foreignId('seat_id');
+            $table->foreignId('user_id');       
+            $table->timestamps();
+        });
+
+        //throw new \Exception('implement in coding task 4, you can ignore this exception if you are just running the initial migrations.');
     }
 
     /**
